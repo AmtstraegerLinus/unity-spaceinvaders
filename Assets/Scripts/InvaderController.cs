@@ -2,54 +2,42 @@ using UnityEngine;
 
 public class InvaderController : MonoBehaviour
 {
-    public GameManager GameManager = new GameManager();
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() { }
-
     [SerializeField]
     private float moveDistance = 0.2f;
 
     [SerializeField]
-    private float seconds = 1;
+    private float seconds = 1f;
 
     [SerializeField]
-    private float timer = 0;
+    private float stepDown = 0.3f;
 
-    [SerializeField]
+    private float timer = 0f;
     private int direction = 1;
+    private bool hitWall = false;
 
-    // Update is called once per frame
+    // Called by any invader that touches a wall
+    public void OnInvaderHitWall()
+    {
+        hitWall = true;
+    }
+
     void Update()
     {
-        if (timer <= seconds)
+        timer += Time.deltaTime;
+        if (timer < seconds)
+            return;
+        timer = 0f;
+
+        if (hitWall)
         {
-            timer += Time.deltaTime;
+            // This step goes down instead of sideways, then reverse
+            direction *= -1;
+            transform.position += Vector3.down * stepDown;
+            hitWall = false;
         }
         else
         {
-            timer = 0;
-            transform.position = new Vector3(
-                transform.position.x + moveDistance * direction,
-                transform.position.y,
-                0
-            );
+            transform.position += Vector3.right * moveDistance * direction;
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            direction *= -1;
-        }
-    }
-
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if (collision.gameObject.tag == "Wall")
-    //     {
-    //         direction *= -1;
-    //     }
-    // }
 }

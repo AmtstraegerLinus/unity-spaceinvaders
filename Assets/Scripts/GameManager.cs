@@ -1,21 +1,16 @@
-using System.Data;
 using UnityEngine;
 
-public class GameManager : CommandBehavior
+public class GameManager : MonoBehaviour
 {
-    public int Direction { get; set; }
+    public static GameManager Instance { get; private set; }
 
-    private GameManager GameManager { get; set; }
-
-    public GameManager()
+    void Awake()
     {
-        if (GameManager == null)
+        if (Instance != null && Instance != this)
         {
-            GameManager = GameManager();
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            return GameManager;
-        }
+        Instance = this;
     }
 }

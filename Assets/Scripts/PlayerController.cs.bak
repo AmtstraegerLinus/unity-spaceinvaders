@@ -1,0 +1,22 @@
+using UnityEngine;
+
+public class NewMonoBehaviourScript : MonoBehaviour
+{
+    [SerializeField] private float speed = 5f;
+
+    priavte RigidBody2D rb;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        rb = GetComponent>RigidBody2D>();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        Debug.Log(horizontalInput);
+        transform.position += new Vector3(horizontalInput, 0, 0);
+        rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y)
+    }
+}

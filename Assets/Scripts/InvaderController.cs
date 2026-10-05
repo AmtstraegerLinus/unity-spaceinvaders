@@ -2,56 +2,42 @@ using UnityEngine;
 
 public class InvaderController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() { }
-
     [SerializeField]
     private float moveDistance = 0.2f;
 
     [SerializeField]
-    private float seconds = 1;
-
-    [SerializeField]
-    private float timer = 0;
-
-    [SerializeField]
-    private int direction = 1;
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (timer <= seconds)
-        {
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            timer = 0;
-            transform.position = new Vector3(
-                transform.position.x + moveDistance * direction,
-                transform.position.y,
-                0
-            );
-        }
-    }
+    private float seconds = 1f;
 
     [SerializeField]
     private float stepDown = 0.3f;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private float timer = 0f;
+    private int direction = 1;
+    private bool hitWall = false;
+
+    // Called by any invader that touches a wall
+    public void OnInvaderHitWall()
     {
-        if (other.CompareTag("Wall"))
-        {
-            direction *= -1;
-            transform.position += Vector3.down * stepDown;
-        }
+        hitWall = true;
     }
 
-    // private void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if (collision.gameObject.tag == "Wall")
-    //     {
-    //         direction *= -1;
-    //     }
-    // }
+    void Update()
+    {
+        timer += Time.deltaTime;
+        if (timer < seconds)
+            return;
+        timer = 0f;
+
+        if (hitWall)
+        {
+            // This step goes down instead of sideways, then reverse
+            direction *= -1;
+            transform.position += Vector3.down * stepDown;
+            hitWall = false;
+        }
+        else
+        {
+            transform.position += Vector3.right * moveDistance * direction;
+        }
+    }
 }

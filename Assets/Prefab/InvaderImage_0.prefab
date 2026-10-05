@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4107422777796188987}
   - component: {fileID: 343996090978846407}
   - component: {fileID: 1229761502873315091}
+  - component: {fileID: 3224729044408736063}
   m_Layer: 0
   m_Name: InvaderImage_0
   m_TagString: Invader
@@ -138,3 +139,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.26, y: 1.265}
   m_EdgeRadius: 0
+--- !u!114 &3224729044408736063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2569131252025726694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3dbf3dcf1e88e5381ee75c6ce0257b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Invader

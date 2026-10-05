@@ -2,22 +2,31 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField]
+    private float speed = 8f;
+
     void Start()
     {
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        GetComponent<Rigidbody2D>().linearVelocity = new Vector3(0, 1, 0);
-        // rb.linearVelocity = new Vector3(0, 1, 0);
+        GetComponent<Rigidbody2D>().linearVelocity = Vector2.up * speed;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    // Destroy the bullet once it leaves the screen at the top
+    void Update()
     {
-        if (collision.gameObject.CompareTag("Invader"))
+        Camera cam = Camera.main;
+        if (transform.position.y > cam.transform.position.y + cam.orthographicSize)
         {
-            Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
     }
 
-    // Update is called once per frame
-    void Update() { }
+    // On hitting an invader, destroy both
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Invader"))
+        {
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+        }
+    }
 }

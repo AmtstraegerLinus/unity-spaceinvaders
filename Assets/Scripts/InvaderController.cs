@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class InvaderController : MonoBehaviour
 {
-    public GameManager GameManager = new GameManager();
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() { }
 
@@ -37,11 +35,15 @@ public class InvaderController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    [SerializeField]
+    private float stepDown = 0.3f;
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Wall"))
+        if (other.CompareTag("Wall"))
         {
             direction *= -1;
+            transform.position += Vector3.down * stepDown;
         }
     }
 
